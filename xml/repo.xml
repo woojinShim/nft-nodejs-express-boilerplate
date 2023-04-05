@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="repo">  
+
+  <!-- <select id="selectItemSell">
+    SELECT
+        nftContract,
+        nftId,
+        seller,
+        price,
+        buyer
+    FROM
+        marketplace.itemSell
+    <where>
+        <if test=nftContract != null and nftContract !=‘’“>
+            AND nftContract = #{nftContract}
+        </if>
+        <if test=nftId != null and nftId !=‘’“>
+            AND nftId = #{nftId}
+        </if>
+    </where>
+  </select> -->
+
+  <insert id="createItemSell">
+    INSERT IGNORE INTO marketplace.itemSell 
+    (
+        id,
+        nftContract,
+        nftId,
+        seller,
+        price
+    ) VALUES (
+        ROUND(UNIX_TIMESTAMP(CURTIME(4)) * 1000),
+        #{nftContract},
+        ${nftId},
+        #{seller},
+        ${price}
+    )
+  </insert>
+
+  <update id="updateItemSold">
+    UPDATE marketplace.itemSell
+    SET
+        buyer = #{buyer}
+    WHERE
+        nftContract = #{nftContract}
+        AND nftId = ${nftId}
+  </update>
+
+  <update id="changeSalePriceItemSell">
+    UPDATE marketplace.itemSell 
+    SET 
+        price = ${afterPrice}
+    WHERE 
+        nftContract = #{nftContract}
+        AND nftId = ${nftId}
+  </update>
+
+  <update id="cancelSaleItemSell">
+    DELETE FROM marketplace.itemSell 
+    WHERE 
+        nftContract = #{nftContract}
+        AND nftId = ${nftId}
+  </update>
+
+  <insert id="createItemBid">
+    INSERT IGNORE INTO marketplace.itemBid
+    (   
+        id,
+        nftContract, 
+        nftId, 
+        seller, 
+        startPrice, 
+        deadline
+    )
+    VALUES (
+        ROUND(UNIX_TIMESTAMP(CURTIME(4)) * 1000),
+        #{nftContract},
+        ${nftId},
+        #{seller},
+        ${startPrice},
+        #{deadline}
+    )
+  </insert>
+
+  <update id="bidNftItemBid">
+    UPDATE marketplace.itemBid 
+    SET 
+        bidder = #{bidder}, 
+        startPrice = ${price}
+    WHERE 
+        nftContract = #{nftContract}
+        AND nftId = ${nftId}
+  </update>
+
+  <update id="updateItemBid">
+    UPDATE marketplace.itemBid 
+    SET 
+        bidder = #{bidder}, 
+        startPrice = ${price}
+    WHERE 
+        nftContract = #{nftContract}
+        AND nftId = ${nftId}
+  </update>
+
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="list">  
+
+  <select id="selectItemSell">
+    SELECT
+        id,
+        nftContract,
+        nftId,
+        seller,
+        price,
+        buyer
+    FROM
+        marketplace.itemSell
+    <!-- <where>
+        <if test=nftContract != null and nftContract !=‘’“>
+            AND nftContract = #{nftContract}
+        </if>
+        <if test=nftId != null and nftId !=‘’“>
+            AND nftId = #{nftId}
+        </if>
+    </where> -->
+  </select>
+
+    <select id="selectItemSellById">
+    SELECT
+        id,
+        nftContract,
+        nftId,
+        seller,
+        price,
+        buyer
+    FROM
+        marketplace.itemSell
+    WHERE
+        id = ${id}
+  </select>
+
+  <select id="selectItemBid">
+    SELECT
+        id,
+        nftContract,
+        nftId,
+        seller,
+        bidder,
+        startPrice,
+        deadline
+    FROM
+        marketplace.itemBid
+  </select>
+
+  <select id="selectItemBidById">
+    SELECT
+        id,
+        nftContract,
+        nftId,
+        seller,
+        bidder,
+        startPrice,
+        deadline
+    FROM
+        marketplace.itemBid
+    WHERE
+        id = ${id}
+  </select>
+
+</mapper>
